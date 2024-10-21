@@ -27,10 +27,13 @@
               {% if user.is_authenticated %}
               
               <li class="nav-item">
-                <a class="nav-link" href="#">My Profile</a>
+                <a class="nav-link" href="{% url 'display_profile' %}">My Profile</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'changepw' %}">Change Password</a>
               </li>
               {% else %}
               <li class="nav-item">

@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
+import random
 # Create your views here.
 
 
@@ -60,3 +61,74 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
+
+
+def forgetpw(request):
+    if request.method == 'POST':
+        un = request.POST.get('un')
+        UO = User.objects.get(username=un)
+        if UO:
+            otp = random.randint(100000, 999999)
+            request.session['otp'] = otp
+            request.session['username'] = un
+            # send_mail(
+            #     'Registration done..',
+            #     otp, 
+            #     'likith.qsp@gmail.com',
+            #     [UO.email],
+            #     fail_silently=False
+            # )
+            print(otp)
+            return HttpResponseRedirect(reverse('otp'))
+
+    return render(request, 'customer/forgetpw.html')
+
+
+def otp(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+        gotp = request.session.get('otp')
+        if int(otp) == gotp:
+            return HttpResponseRedirect(reverse('newpw'))
+        return HttpResponse('Invalid OTP')
+    return render(request, 'customer/otp.html')
+
+def newpw(request):
+    if request.method == 'POST':
+        pw = request.POST.get('pw')
+        cpw = request.POST.get('cpw')
+        if pw == cpw:
+            un = request.session.get('username')
+            UO = User.objects.get(username=un)
+            if UO:
+                UO.set_password(pw)
+                UO.save()
+                return HttpResponseRedirect(reverse('user_login'))
+            return HttpResponse('Session Expired')
+        return HttpResponse('password dosent match')
+
+    return render(request, 'customer/newpw.html')
+
+def changepw(request):
+    un = request.session.get('username')
+    UO = User.objects.get(username=un)
+    if UO:
+        otp = random.randint(100000, 999999)
+        request.session['otp'] = otp
+        request.session['username'] = un
+            # send_mail(
+            #     'Registration done..',
+            #     otp, 
+            #     'likith.qsp@gmail.com',
+            #     [UO.email],
+            #     fail_silently=False
+            # )
+        print(otp)
+        return HttpResponseRedirect(reverse('otp'))
+    
+def display_profile(request):
+    un = request.session.get('username')
+    UO = User.objects.get(username=un)
+    PO = Profile.objects.get(username=UO)
+    d = {'UO': UO, 'PO': PO}
+    return render(request, 'customer/display_profile.html', d)
