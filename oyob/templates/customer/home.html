@@ -5,5 +5,41 @@ home
 {% endblock title %}
 
 {% block body %}
-<h1>Welcome to home page</h1>
+<style>
+    #brands ul, li{
+        display: inline-block;
+        
+    }
+    #brands button{
+        border-radius: 10px;
+    }
+</style>
+<center>
+    <h1>Choose your Bike</h1>
+    <div id="brands">
+        <ul>
+            {% for brand in brands %}
+              <a href="{% url 'display' brand.company %}"><li><button>{{brand.company}}</button></li></a>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="bikes">
+        {% if bikes %}
+        {% for bike in bikes %}
+        <div class="card" style="width: 18rem; display: inline-block;" >
+            <img src="{{bike.photo.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{bike.bike_name}}</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Details</a>
+              <a href="#" class="btn btn-primary">Book Now</a>
+            </div>
+          </div>
+        {% endfor %}
+        {% else %}
+        <h1>Sorry No {{brand}} bikes are available at the moment</h1>
+        {% endif %}
+    </div>
+</center>
 {% endblock body %}
