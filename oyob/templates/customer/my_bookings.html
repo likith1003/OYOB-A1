@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+my_bookings
+{% endblock title %}
+
+{% block body %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+          <th scope="col">slno</th>
+          <th scope="col">Booking id</th>
+          <th scope="col">Bike Name</th>
+          <th scope="col">Bike Photo</th>
+          <th scope="col">Pickup Date</th>
+          <th scope="col">Pickup Time</th>
+          <th scope="col">Drop Date</th>
+          <th scope="col">Drop Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bike in bookings %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{bike.booking_id}}</td>
+            <td>{{bike.bike_name.bike_name}}</td>
+            <td>{{bike.bike_name.photo.url}}</td>
+            <th>{{bike.pickup_date}}</th>
+            <td>{{bike.pickup_time}}</td>
+            <td>{{bike.drop_date}}</td>
+            <td>{{bike.drop_time}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+{% endblock body %}

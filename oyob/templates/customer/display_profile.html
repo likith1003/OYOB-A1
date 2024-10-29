@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+display_profile
+{% endblock title %}
+
+
+{% block body %}
+<style>
+    img{
+        width: 250px;
+        height: 250px;
+        border-radius: 100%;
+    }
+    
+</style>
+<center>
+    <img src="{{PO.profile_pic.url}}" alt="">
+    <h1>Name of the User :- {{UO.first_name}} {{UO.last_name}}</h1>
+    <h1>Pno of the User :- {{PO.pno}}</h1>
+    <h1>Email of the user: - {{UO.email}}</h1>
+</center>
+{% endblock body %}

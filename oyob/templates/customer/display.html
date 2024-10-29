@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+Display
+{% endblock title %}
+
+{% block body %}
+<center>
+    <img src="{{BO.photo.url}}" alt="" style="width: 250px;">
+    <h1>{{BO.bike_name}}</h1>
+    <h1>{{BO.desc}}</h1>
+    <a href="{% url 'book' BO.pk %}"><button>Book Now</button></a>
+</center>
+{% endblock body %}
